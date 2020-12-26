@@ -31,22 +31,21 @@ export default {
   
     };
   },
- async created() {
-   const {data} = await axios.get("https://covidtracking.com/api/us/daily");
-   console.log(data);
-  data.array.forEach(d => {
-    const date = moment(d.date,"YYYYMMDD").format("MM/DD");
+    created()  {
+    axios.get("https://covidtracking.com/api/us/daily").then(response => {
+      const data = response.data;
 
-    const {
-      positive,
+      data.forEach(singleData => {
+        const date = moment(singleData.date,"YYYYMMDD").format("MM/DD");
 
-    } = d;
+        const { positive } = singleData;
 
-    this.arrPositive.push({date, total: positive});
+        this.arrPositive.push({date, total: positive});
 
-    //console.log(this.arrPositive);
-  });
- }
+      });
+    });
+
+  }
 }
 </script>
 
